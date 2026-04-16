@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rush Hour AI Realty — AI Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0C0C0E;
+  --bg-card: #161619;
+  --bg-card-hover: #1C1C20;
+  --bg-elevated: #222227;
+  --border: rgba(255,255,255,0.06);
+  --border-active: rgba(255,255,255,0.12);
+  --text-primary: #F2F0ED;
+  --text-secondary: #9B9A97;
+  --text-tertiary: #5E5D5B;
+  --accent: #C9A461;
+  --accent-dim: rgba(201,164,97,0.12);
+  --accent-glow: rgba(201,164,97,0.25);
+  --accent-text: #E8D5A8;
+  --green: #4ADE80;
+  --green-dim: rgba(74,222,128,0.1);
+  --blue: #60A5FA;
+  --blue-dim: rgba(96,165,250,0.1);
+  --coral: #FB923C;
+  --coral-dim: rgba(251,146,60,0.1);
+  --pink: #F472B6;
+  --pink-dim: rgba(244,114,182,0.1);
+  --purple: #A78BFA;
+  --purple-dim: rgba(167,139,250,0.1);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(201,164,97,0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app { position: relative; z-index: 1; }
+
+/* ─── HEADER ─── */
+header {
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(12,12,14,0.85);
+}
+
+.logo { display: flex; align-items: center; gap: 14px; }
+
+.logo-mark {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--accent) 0%, #8B6914 100%);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 16px;
+  color: var(--bg-deep);
+}
+
+.logo-text { display: flex; flex-direction: column; gap: 1px; }
+.logo-text span:first-child {
+  font-family: var(--font-display); font-size: 16px; font-weight: 600;
+  color: var(--text-primary); letter-spacing: -0.3px;
+}
+.logo-text span:last-child {
+  font-size: 9px; font-weight: 500; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--accent);
+}
+
+.header-right { display: flex; align-items: center; gap: 12px; }
+
+.badge-demo {
+  padding: 5px 12px; border-radius: 100px;
+  font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--accent);
+  background: var(--accent-dim); border: 1px solid rgba(201,164,97,0.15);
+}
+
+.btn-cta {
+  padding: 9px 20px; border-radius: 100px;
+  font-size: 13px; font-weight: 600; font-family: var(--font-body);
+  color: var(--bg-deep);
+  background: linear-gradient(135deg, var(--accent) 0%, #B8923E 100%);
+  border: none; cursor: pointer; transition: all 0.2s;
+}
+.btn-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(201,164,97,0.25); }
+
+/* ─── MODULE NAV ─── */
+.module-nav {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  background: rgba(12,12,14,0.6);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 65px;
+  z-index: 99;
+  padding: 0 40px;
+}
+
+.module-btn {
+  padding: 16px 28px;
+  font-size: 13px; font-weight: 500; font-family: var(--font-body);
+  color: var(--text-tertiary);
+  background: none; border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap;
+}
+.module-btn:hover { color: var(--text-secondary); }
+.module-btn.active {
+  color: var(--accent-text);
+  border-bottom-color: var(--accent);
+  font-weight: 600;
+}
+.module-btn .mod-icon { font-size: 15px; }
+.module-btn .mod-badge {
+  font-size: 9px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; padding: 2px 7px;
+  border-radius: 4px; background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.module-btn.coming-soon { opacity: 0.4; cursor: default; }
+
+/* ─── MODULE PAGES ─── */
+.module-page { display: none; }
+.module-page.active { display: block; }
+
+/* ─── HERO ─── */
+.hero {
+  padding: 60px 40px 50px;
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.hero-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 16px; border-radius: 100px;
+  font-size: 12px; font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--bg-card); border: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+
+.hero-label .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: 42px; font-weight: 500;
+  line-height: 1.15; letter-spacing: -1px;
+  margin-bottom: 16px;
+}
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero p {
+  font-size: 16px; line-height: 1.65;
+  color: var(--text-secondary); max-width: 520px; margin: 0 auto;
+}
+
+/* ─── CONTAINER ─── */
+.studio-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px 80px;
+}
+
+/* ─── STATS BAR ─── */
+.stats-bar { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 28px; }
+.stat-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 16px 18px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.stat-card .stat-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--text-tertiary);
+}
+.stat-card .stat-value {
+  font-family: var(--font-display);
+  font-size: 24px; font-weight: 500; color: var(--text-primary);
+}
+.stat-card .stat-sub { font-size: 11px; color: var(--text-secondary); }
+
+/* ─── TOOL TABS ─── */
+.tool-tabs {
+  display: flex; gap: 6px; margin-bottom: 28px; padding: 5px;
+  background: var(--bg-card); border-radius: var(--radius-lg);
+  border: 1px solid var(--border); overflow-x: auto;
+}
+.tool-tab {
+  flex: 1; padding: 12px 16px; border-radius: 14px;
+  font-size: 13px; font-weight: 500; font-family: var(--font-body);
+  color: var(--text-secondary); background: transparent;
+  border: none; cursor: pointer; transition: all 0.25s;
+  white-space: nowrap; display: flex; align-items: center;
+  justify-content: center; gap: 7px;
+}
+.tool-tab:hover { color: var(--text-primary); background: var(--bg-elevated); }
+.tool-tab.active {
+  color: var(--bg-deep);
+  background: linear-gradient(135deg, var(--accent) 0%, #B8923E 100%);
+  font-weight: 600;
+}
+
+/* ─── GRID ─── */
+.studio-grid {
+  display: grid; grid-template-columns: 380px 1fr;
+  gap: 20px; align-items: start;
+}
+
+/* ─── PANELS ─── */
+.input-panel {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 24px;
+}
+.panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.panel-header h3 {
+  font-family: var(--font-display); font-size: 18px; font-weight: 500;
+}
+.panel-header .step-badge {
+  font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-tertiary);
+}
+
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.8px; text-transform: uppercase;
+  color: var(--text-tertiary); margin-bottom: 6px;
+}
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; padding: 11px 14px; border-radius: var(--radius-sm);
+  font-size: 14px; font-family: var(--font-body);
+  color: var(--text-primary); background: var(--bg-deep);
+  border: 1px solid var(--border); outline: none; transition: border-color 0.2s;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim);
+}
+.form-group textarea { min-height: 70px; resize: vertical; line-height: 1.5; }
+.form-group select {
+  appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%239B9A97' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px;
+}
+option { background: var(--bg-deep); color: var(--text-primary); }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.quick-fills { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.quick-fill {
+  padding: 4px 10px; border-radius: 100px;
+  font-size: 11px; font-weight: 500; font-family: var(--font-body);
+  color: var(--text-secondary); background: var(--bg-elevated);
+  border: 1px solid var(--border); cursor: pointer; transition: all 0.15s;
+}
+.quick-fill:hover { color: var(--accent-text); border-color: rgba(201,164,97,0.3); background: var(--accent-dim); }
+
+.generate-btn {
+  width: 100%; padding: 14px; border-radius: var(--radius-md);
+  font-size: 15px; font-weight: 600; font-family: var(--font-body);
+  color: var(--bg-deep);
+  background: linear-gradient(135deg, var(--accent) 0%, #B8923E 100%);
+  border: none; cursor: pointer; transition: all 0.25s;
+  margin-top: 6px; position: relative; overflow: hidden;
+}
+.generate-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 40px rgba(201,164,97,0.3); }
+.generate-btn.loading { pointer-events: none; color: transparent; }
+.generate-btn .spinner {
+  display: none; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 22px; height: 22px;
+  border: 2.5px solid rgba(12,12,14,0.2);
+  border-top-color: var(--bg-deep); border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+.generate-btn.loading .spinner { display: block; }
+@keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+/* ─── OUTPUT PANEL ─── */
+.output-panel {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); min-height: 480px;
+  display: flex; flex-direction: column;
+}
+.output-header {
+  padding: 18px 24px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.output-header h3 { font-family: var(--font-display); font-size: 18px; font-weight: 500; }
+.output-actions { display: flex; gap: 6px; }
+.btn-icon {
+  width: 34px; height: 34px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; color: var(--text-secondary);
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  cursor: pointer; transition: all 0.15s; font-family: var(--font-body);
+}
+.btn-icon:hover { color: var(--accent-text); border-color: rgba(201,164,97,0.3); }
+
+.output-body { flex: 1; padding: 24px; overflow-y: auto; }
+
+.empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; height: 100%; min-height: 380px;
+  text-align: center; gap: 14px;
+}
+.empty-icon {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--accent-dim); display: flex;
+  align-items: center; justify-content: center; font-size: 24px;
+}
+.empty-state h4 { font-family: var(--font-display); font-size: 18px; font-weight: 500; }
+.empty-state p { font-size: 13px; color: var(--text-tertiary); max-width: 260px; line-height: 1.6; }
+
+/* Generated content */
+.gen-content { animation: fadeUp 0.5s ease-out; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+.gen-section { margin-bottom: 24px; }
+.gen-section:last-child { margin-bottom: 0; }
+.gen-section-label {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 10px;
+}
+.gen-section-label .label-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+.gen-text { font-size: 14px; line-height: 1.75; color: var(--text-primary); white-space: pre-wrap; }
+
+.gen-card {
+  background: var(--bg-deep); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 18px;
+}
+.gen-card + .gen-card { margin-top: 10px; }
+.gen-card-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;
+}
+.gen-card-platform { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.gen-card-chars { font-size: 11px; color: var(--text-tertiary); font-weight: 500; }
+.gen-card p { font-size: 14px; line-height: 1.7; color: var(--text-secondary); }
+.gen-card .hashtags { margin-top: 8px; font-size: 13px; color: var(--accent); line-height: 1.6; }
+
+.copy-btn {
+  padding: 7px 14px; border-radius: 100px;
+  font-size: 11px; font-weight: 600; font-family: var(--font-body);
+  color: var(--text-secondary); background: var(--bg-elevated);
+  border: 1px solid var(--border); cursor: pointer; transition: all 0.2s;
+  margin-top: 12px; display: inline-flex; align-items: center; gap: 5px;
+}
+.copy-btn:hover { color: var(--accent-text); border-color: rgba(201,164,97,0.3); }
+.copy-btn.copied { color: var(--green); border-color: rgba(74,222,128,0.3); }
+
+/* ─── EMAIL PREVIEW STYLING ─── */
+.email-preview {
+  background: var(--bg-deep); border: 1px solid var(--border);
+  border-radius: var(--radius-md); overflow: hidden;
+}
+.email-preview-bar {
+  padding: 12px 18px; border-bottom: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 6px;
+}
+.email-field {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px;
+}
+.email-field-label {
+  color: var(--text-tertiary); font-weight: 600;
+  min-width: 50px; text-transform: uppercase; letter-spacing: 0.5px;
+  font-size: 10px;
+}
+.email-field-value { color: var(--text-secondary); }
+.email-field-subject { color: var(--text-primary); font-weight: 500; }
+.email-preview-body {
+  padding: 18px;
+  font-size: 14px; line-height: 1.75; color: var(--text-primary);
+  white-space: pre-wrap;
+}
+
+/* ─── SEQUENCE TIMELINE ─── */
+.sequence-timeline { display: flex; flex-direction: column; gap: 0; }
+.seq-item {
+  display: flex; gap: 16px; position: relative;
+}
+.seq-item:not(:last-child) { padding-bottom: 20px; }
+.seq-line {
+  display: flex; flex-direction: column; align-items: center;
+  width: 28px; flex-shrink: 0;
+}
+.seq-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid var(--accent); background: var(--bg-deep);
+  z-index: 1; flex-shrink: 0;
+}
+.seq-dot.filled { background: var(--accent); }
+.seq-connector {
+  width: 1px; flex: 1; background: var(--border-active);
+  margin-top: 4px;
+}
+.seq-content { flex: 1; padding-top: 0; }
+.seq-day {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 4px;
+}
+.seq-title {
+  font-size: 14px; font-weight: 500; color: var(--text-primary); margin-bottom: 4px;
+}
+.seq-desc {
+  font-size: 13px; color: var(--text-secondary); line-height: 1.5;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  text-align: center; padding: 40px;
+  border-top: 1px solid var(--border);
+  font-size: 13px; color: var(--text-tertiary);
+}
+footer a { color: var(--accent); text-decoration: none; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .studio-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 30px; }
+  .hero { padding: 40px 20px 30px; }
+  .studio-container { padding: 0 16px 60px; }
+  header { padding: 12px 16px; }
+  .module-nav { padding: 0 16px; overflow-x: auto; }
+  .stats-bar { grid-template-columns: repeat(2,1fr); }
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-active); border-radius: 3px; }
+
+/* ─── MODE TOGGLE ─── */
+.mode-toggle {
+  display: flex; align-items: center; gap: 10px;
+  padding: 5px 6px 5px 14px;
+  border-radius: 100px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+.mode-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+  color: var(--text-tertiary);
+}
+.mode-label.active-mode { color: var(--green); }
+.toggle-switch {
+  position: relative; width: 40px; height: 22px;
+  background: var(--bg-elevated); border-radius: 11px;
+  cursor: pointer; transition: background 0.2s;
+  border: 1px solid var(--border);
+}
+.toggle-switch.on { background: var(--green-dim); border-color: rgba(74,222,128,0.3); }
+.toggle-knob {
+  position: absolute; top: 2px; left: 2px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--text-tertiary); transition: all 0.2s;
+}
+.toggle-switch.on .toggle-knob {
+  left: 20px; background: var(--green);
+}
+
+/* ─── SETTINGS MODAL ─── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7); z-index: 200;
+  align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 32px;
+  width: 480px; max-width: 90vw;
+}
+.modal h2 {
+  font-family: var(--font-display); font-size: 22px;
+  font-weight: 500; margin-bottom: 8px;
+}
+.modal .modal-desc {
+  font-size: 14px; color: var(--text-secondary);
+  line-height: 1.6; margin-bottom: 24px;
+}
+.modal .form-group { margin-bottom: 20px; }
+.modal .api-key-input {
+  font-family: var(--font-body);
+  letter-spacing: 1px;
+}
+.modal-actions {
+  display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px;
+}
+.btn-secondary {
+  padding: 10px 20px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500; font-family: var(--font-body);
+  color: var(--text-secondary); background: var(--bg-elevated);
+  border: 1px solid var(--border); cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-secondary:hover { color: var(--text-primary); border-color: var(--border-active); }
+.btn-primary {
+  padding: 10px 20px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 600; font-family: var(--font-body);
+  color: var(--bg-deep);
+  background: linear-gradient(135deg, var(--accent) 0%, #B8923E 100%);
+  border: none; cursor: pointer; transition: all 0.2s;
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(201,164,97,0.25); }
+.api-status {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; margin-top: 8px;
+}
+.api-status .status-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+}
+.api-status.connected .status-dot { background: var(--green); }
+.api-status.connected { color: var(--green); }
+.api-status.disconnected .status-dot { background: var(--text-tertiary); }
+.api-status.disconnected { color: var(--text-tertiary); }
+
+/* ─── LIVE INDICATOR ─── */
+.live-badge {
+  padding: 4px 10px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.live-badge.demo-mode { color: var(--accent); background: var(--accent-dim); border: 1px solid rgba(201,164,97,0.15); }
+.live-badge.live-mode { color: var(--green); background: var(--green-dim); border: 1px solid rgba(74,222,128,0.2); }
+.live-badge .live-pulse {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); animation: pulse-dot 1.5s ease-in-out infinite;
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-mark">RH</div>
+    <div class="logo-text">
+      <span>Rush Hour AI</span>
+      <span>Realty Partners</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="mode-toggle">
+      <span class="mode-label" id="mode-demo-label" style="color:var(--accent)">Demo</span>
+      <div class="toggle-switch" id="mode-switch" onclick="toggleMode()">
+        <div class="toggle-knob"></div>
+      </div>
+      <span class="mode-label" id="mode-live-label">Live</span>
+    </div>
+    <button class="btn-icon" title="API Settings" onclick="openSettings()" style="font-size:18px">&#9881;</button>
+    <button class="btn-cta" onclick="alert('Coming soon — join the waitlist at rushhourai.com')">Get Early Access</button>
+  </div>
+</header>
+
+<!-- MODULE NAV -->
+<nav class="module-nav">
+  <button class="module-btn active" onclick="switchModule('listings')">
+    <span class="mod-icon">&#9998;</span> Listing Studio
+  </button>
+  <button class="module-btn" onclick="switchModule('comms')">
+    <span class="mod-icon">&#9993;</span> Communication Engine
+    <span class="mod-badge">New</span>
+  </button>
+  <button class="module-btn" onclick="switchModule('analyst')">
+    <span class="mod-icon">&#9883;</span> Property Analyst
+    <span class="mod-badge">New</span>
+  </button>
+  <button class="module-btn" onclick="switchModule('intel')">
+    <span class="mod-icon">&#9878;</span> Detroit Intel
+    <span class="mod-badge">New</span>
+  </button>
+</nav>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- MODULE 1: LISTING CONTENT STUDIO            -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="module-page active" id="mod-listings">
+  <section class="hero">
+    <div class="hero-label"><span class="dot"></span> Listing Content Studio</div>
+    <h1>Write listings that <em>sell</em>, not listings that sit.</h1>
+    <p>MLS descriptions, social captions, open house scripts, and buyer emails — generated in seconds, tuned for Metro Detroit.</p>
+  </section>
+
+  <div class="studio-container">
+    <div class="stats-bar">
+      <div class="stat-card"><span class="stat-label">Time saved</span><span class="stat-value">47 min</span><span class="stat-sub">per listing</span></div>
+      <div class="stat-card"><span class="stat-label">Content types</span><span class="stat-value">6</span><span class="stat-sub">MLS, social, email, scripts</span></div>
+      <div class="stat-card"><span class="stat-label">Detroit agents</span><span class="stat-value">Beta</span><span class="stat-sub">Metro Detroit exclusive</span></div>
+      <div class="stat-card"><span class="stat-label">AI engine</span><span class="stat-value">Claude</span><span class="stat-sub">Anthropic Sonnet 4</span></div>
+    </div>
+
+    <div class="tool-tabs" id="listing-tabs">
+      <button class="tool-tab active" data-tab="mls" onclick="switchListingTab('mls')">&#9998; MLS Description</button>
+      <button class="tool-tab" data-tab="social" onclick="switchListingTab('social')">&#9733; Social Captions</button>
+      <button class="tool-tab" data-tab="email" onclick="switchListingTab('email')">&#9993; Buyer Email</button>
+      <button class="tool-tab" data-tab="openhouse" onclick="switchListingTab('openhouse')">&#9751; Open House Script</button>
+    </div>
+
+    <div class="studio-grid">
+      <div class="input-panel">
+        <div class="panel-header"><h3>Property details</h3><span class="step-badge">Step 1</span></div>
+        <div class="form-group"><label>Address</label><input type="text" id="l-address" placeholder="1420 Bagley St, Detroit, MI 48216" value="1420 Bagley St, Detroit, MI 48216"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Bedrooms</label>
+            <select id="l-beds"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5+</option></select>
+          </div>
+          <div class="form-group"><label>Bathrooms</label>
+            <select id="l-baths"><option value="1">1</option><option value="1.5">1.5</option><option value="2" selected>2</option><option value="2.5">2.5</option><option value="3">3+</option></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Sq ft</label><input type="text" id="l-sqft" value="1,450"></div>
+          <div class="form-group"><label>List price</label><input type="text" id="l-price" value="$225,000"></div>
+        </div>
+        <div class="form-group"><label>Neighborhood</label>
+          <select id="l-neighborhood">
+            <option value="Corktown" selected>Corktown</option><option value="Midtown">Midtown</option>
+            <option value="West Village">West Village</option><option value="Woodbridge">Woodbridge</option>
+            <option value="Grandmont Rosedale">Grandmont Rosedale</option><option value="Palmer Woods">Palmer Woods</option>
+            <option value="Indian Village">Indian Village</option><option value="Brush Park">Brush Park</option>
+            <option value="Boston-Edison">Boston-Edison</option><option value="Sherwood Forest">Sherwood Forest</option>
+            <option value="Rosedale Park">Rosedale Park</option><option value="East English Village">East English Village</option>
+            <option value="Royal Oak">Royal Oak</option><option value="Ferndale">Ferndale</option>
+            <option value="Hamtramck">Hamtramck</option><option value="Dearborn">Dearborn</option>
+            <option value="Birmingham">Birmingham</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Key features</label>
+          <textarea id="l-features">Original hardwood floors, updated kitchen with quartz counters, walkable to Michigan Central Station, covered front porch, fenced backyard, new roof 2024</textarea>
+          <div class="quick-fills">
+            <button class="quick-fill" onclick="addToField('l-features','original hardwood floors')">Hardwoods</button>
+            <button class="quick-fill" onclick="addToField('l-features','updated kitchen')">Updated Kitchen</button>
+            <button class="quick-fill" onclick="addToField('l-features','finished basement')">Finished Basement</button>
+            <button class="quick-fill" onclick="addToField('l-features','two-car garage')">2-Car Garage</button>
+            <button class="quick-fill" onclick="addToField('l-features','walkable neighborhood')">Walkable</button>
+          </div>
+        </div>
+        <div class="form-group" id="l-tone-group"><label>Tone</label>
+          <select id="l-tone">
+            <option value="professional">Professional</option><option value="luxury">Luxury / Elevated</option>
+            <option value="warm">Warm / Inviting</option><option value="investor">Investor-focused</option>
+            <option value="first-time">First-time Buyer Friendly</option>
+          </select>
+        </div>
+        <button class="generate-btn" onclick="generateListing()">Generate Content<span class="spinner"></span></button>
+      </div>
+
+      <div class="output-panel">
+        <div class="output-header"><h3>Your content</h3>
+          <div class="output-actions">
+            <button class="btn-icon" title="Copy all" onclick="copyAllFrom('listing-output')">&#x2398;</button>
+            <button class="btn-icon" title="Reset" onclick="resetPanel('listing-output')">&#x21bb;</button>
+          </div>
+        </div>
+        <div class="output-body" id="listing-output">
+          <div class="empty-state"><div class="empty-icon">&#x270D;</div><h4>Ready when you are</h4><p>Fill in property details and hit generate.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- MODULE 2: CLIENT COMMUNICATION ENGINE        -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="module-page" id="mod-comms">
+  <section class="hero">
+    <div class="hero-label"><span class="dot"></span> Client Communication Engine</div>
+    <h1>Never lose a lead to <em>silence</em>.</h1>
+    <p>Follow-ups, showing feedback, check-ins, and re-engagement emails — written in your voice, ready to send, timed to convert.</p>
+  </section>
+
+  <div class="studio-container">
+    <div class="stats-bar">
+      <div class="stat-card"><span class="stat-label">Response rate</span><span class="stat-value">3.2x</span><span class="stat-sub">vs. generic templates</span></div>
+      <div class="stat-card"><span class="stat-label">Templates</span><span class="stat-value">5</span><span class="stat-sub">Follow-up, feedback, drip</span></div>
+      <div class="stat-card"><span class="stat-label">Avg. write time</span><span class="stat-value">8 sec</span><span class="stat-sub">vs. 12 min manually</span></div>
+      <div class="stat-card"><span class="stat-label">Channels</span><span class="stat-value">3</span><span class="stat-sub">Email, text, DM</span></div>
+    </div>
+
+    <div class="tool-tabs" id="comms-tabs">
+      <button class="tool-tab active" data-tab="showing-followup" onclick="switchCommsTab('showing-followup')">&#127968; Showing Follow-up</button>
+      <button class="tool-tab" data-tab="showing-feedback" onclick="switchCommsTab('showing-feedback')">&#128172; Showing Feedback</button>
+      <button class="tool-tab" data-tab="new-listing-alert" onclick="switchCommsTab('new-listing-alert')">&#128227; New Listing Alert</button>
+      <button class="tool-tab" data-tab="cold-reengagement" onclick="switchCommsTab('cold-reengagement')">&#128165; Cold Re-engagement</button>
+      <button class="tool-tab" data-tab="drip-sequence" onclick="switchCommsTab('drip-sequence')">&#9200; Drip Sequence</button>
+    </div>
+
+    <div class="studio-grid">
+      <div class="input-panel" id="comms-input-panel">
+        <!-- Dynamic input form rendered by JS -->
+      </div>
+
+      <div class="output-panel">
+        <div class="output-header"><h3>Your message</h3>
+          <div class="output-actions">
+            <button class="btn-icon" title="Copy" onclick="copyAllFrom('comms-output')">&#x2398;</button>
+            <button class="btn-icon" title="Reset" onclick="resetPanel('comms-output')">&#x21bb;</button>
+          </div>
+        </div>
+        <div class="output-body" id="comms-output">
+          <div class="empty-state"><div class="empty-icon">&#9993;</div><h4>Pick a message type</h4><p>Fill in the details and generate. Your client communication appears here.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- MODULE 3: AI PROPERTY ANALYST               -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="module-page" id="mod-analyst">
+  <section class="hero">
+    <div class="hero-label"><span class="dot"></span> AI Property Analyst</div>
+    <h1>Know the neighborhood <em>before</em> the client asks.</h1>
+    <p>Instant neighborhood briefs, property snapshots, investment angles, and talking points. Be the most prepared agent in every room.</p>
+  </section>
+
+  <div class="studio-container">
+    <div class="stats-bar">
+      <div class="stat-card"><span class="stat-label">Prep time</span><span class="stat-value">90 sec</span><span class="stat-sub">vs. 45 min research</span></div>
+      <div class="stat-card"><span class="stat-label">Report types</span><span class="stat-value">4</span><span class="stat-sub">Brief, snapshot, pitch, invest</span></div>
+      <div class="stat-card"><span class="stat-label">Neighborhoods</span><span class="stat-value">20+</span><span class="stat-sub">Metro Detroit coverage</span></div>
+      <div class="stat-card"><span class="stat-label">Data sources</span><span class="stat-value">Public</span><span class="stat-sub">No MLS license needed</span></div>
+    </div>
+
+    <div class="tool-tabs" id="analyst-tabs">
+      <button class="tool-tab active" data-tab="neighborhood-brief" onclick="switchAnalystTab('neighborhood-brief')">&#127961; Neighborhood Brief</button>
+      <button class="tool-tab" data-tab="property-snapshot" onclick="switchAnalystTab('property-snapshot')">&#127968; Property Snapshot</button>
+      <button class="tool-tab" data-tab="buyer-pitch" onclick="switchAnalystTab('buyer-pitch')">&#127908; Buyer Pitch Prep</button>
+      <button class="tool-tab" data-tab="investment-angle" onclick="switchAnalystTab('investment-angle')">&#128200; Investment Angle</button>
+    </div>
+
+    <div class="studio-grid">
+      <div class="input-panel" id="analyst-input-panel">
+        <!-- Dynamic form rendered by JS -->
+      </div>
+
+      <div class="output-panel">
+        <div class="output-header"><h3>Your analysis</h3>
+          <div class="output-actions">
+            <button class="btn-icon" title="Copy" onclick="copyAllFrom('analyst-output')">&#x2398;</button>
+            <button class="btn-icon" title="Reset" onclick="resetPanel('analyst-output')">&#x21bb;</button>
+          </div>
+        </div>
+        <div class="output-body" id="analyst-output">
+          <div class="empty-state"><div class="empty-icon">&#9883;</div><h4>Enter a neighborhood or property</h4><p>Get an AI-powered analysis you can use in meetings and client conversations.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- MODULE 4: DETROIT MARKET INTEL              -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="module-page" id="mod-intel">
+  <section class="hero">
+    <div class="hero-label"><span class="dot"></span> Detroit Market Intel</div>
+    <h1>The local edge no <em>national tool</em> can touch.</h1>
+    <p>Tax lien data, land bank inventory, vacancy patterns, development tracking, and neighborhood momentum scores. Detroit-specific intelligence that makes you dangerous.</p>
+  </section>
+
+  <div class="studio-container">
+    <div class="stats-bar">
+      <div class="stat-card"><span class="stat-label">Data advantage</span><span class="stat-value">Local</span><span class="stat-sub">Detroit-only intelligence</span></div>
+      <div class="stat-card"><span class="stat-label">Reports</span><span class="stat-value">5</span><span class="stat-sub">Lien, vacancy, dev, momentum</span></div>
+      <div class="stat-card"><span class="stat-label">Coverage</span><span class="stat-value">Detroit</span><span class="stat-sub">City + inner ring suburbs</span></div>
+      <div class="stat-card"><span class="stat-label">Updated</span><span class="stat-value">Live</span><span class="stat-sub">Public record sourced</span></div>
+    </div>
+
+    <div class="tool-tabs" id="intel-tabs">
+      <button class="tool-tab active" data-tab="tax-lien" onclick="switchIntelTab('tax-lien')">&#128176; Tax Lien Scout</button>
+      <button class="tool-tab" data-tab="vacancy" onclick="switchIntelTab('vacancy')">&#127960; Vacancy Report</button>
+      <button class="tool-tab" data-tab="development" onclick="switchIntelTab('development')">&#128199; Development Tracker</button>
+      <button class="tool-tab" data-tab="momentum" onclick="switchIntelTab('momentum')">&#128200; Momentum Score</button>
+      <button class="tool-tab" data-tab="opportunity" onclick="switchIntelTab('opportunity')">&#127919; Opportunity Brief</button>
+    </div>
+
+    <div class="studio-grid">
+      <div class="input-panel" id="intel-input-panel">
+        <!-- Dynamic form rendered by JS -->
+      </div>
+
+      <div class="output-panel">
+        <div class="output-header"><h3>Your intel</h3>
+          <div class="output-actions">
+            <button class="btn-icon" title="Copy" onclick="copyAllFrom('intel-output')">&#x2398;</button>
+            <button class="btn-icon" title="Reset" onclick="resetPanel('intel-output')">&#x21bb;</button>
+          </div>
+        </div>
+        <div class="output-body" id="intel-output">
+          <div class="empty-state"><div class="empty-icon">&#9878;</div><h4>Detroit intelligence on demand</h4><p>Pick a report type and neighborhood. Get data no national tool has.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal">
+    <h2>API Settings</h2>
+    <p class="modal-desc">Connect your Anthropic API key to enable live AI generation. Your key is stored locally in your browser only.</p>
+    <div class="form-group">
+      <label>Anthropic API key</label>
+      <input type="password" id="api-key-input" class="api-key-input" placeholder="sk-ant-api03-..." value="">
+    </div>
+    <div id="api-status" class="api-status disconnected">
+      <span class="status-dot"></span>
+      <span id="api-status-text">Not connected</span>
+    </div>
+    <div class="form-group" style="margin-top:20px">
+      <label>Model</label>
+      <select id="api-model">
+        <option value="claude-sonnet-4-20250514">Claude Sonnet 4 (recommended)</option>
+        <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5 (faster, cheaper)</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeSettings()">Cancel</button>
+      <button class="btn-primary" onclick="saveSettings()">Save & Test</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>Rush Hour AI Realty Partners &middot; Metro Detroit &middot; Powered by <a href="#">Detroit AI Works</a></footer>
+
+</div>
+
+<script>
+// STATE
+let currentModule = 'listings', currentListingTab = 'mls', currentCommsTab = 'showing-followup';
+let liveMode = false, apiKey = localStorage.getItem('rh_api_key') || '', apiModel = localStorage.getItem('rh_api_model') || 'claude-sonnet-4-20250514';
+window.addEventListener('DOMContentLoaded', () => { if (apiKey) { document.getElementById('api-key-input').value = apiKey; updateApiStatus(true); } });
+
+// MODE & SETTINGS
+function toggleMode() {
+  if (!liveMode && !apiKey) { openSettings(); return; }
+  liveMode = !liveMode;
+  document.getElementById('mode-switch').classList.toggle('on', liveMode);
+  document.getElementById('mode-demo-label').style.color = liveMode ? 'var(--text-tertiary)' : 'var(--accent)';
+  document.getElementById('mode-live-label').style.color = liveMode ? 'var(--green)' : 'var(--text-tertiary)';
+}
+function openSettings() { document.getElementById('settings-modal').classList.add('open'); if(apiKey) document.getElementById('api-key-input').value=apiKey; document.getElementById('api-model').value=apiModel; }
+function closeSettings() { document.getElementById('settings-modal').classList.remove('open'); }
+async function saveSettings() {
+  const key = document.getElementById('api-key-input').value.trim(), model = document.getElementById('api-model').value;
+  if (!key) { alert('Please enter an API key'); return; }
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'}, body:JSON.stringify({model,max_tokens:50,messages:[{role:'user',content:'Say "connected" only.'}]}) });
+    if (!r.ok) throw new Error('Invalid key');
+    apiKey=key; apiModel=model; localStorage.setItem('rh_api_key',key); localStorage.setItem('rh_api_model',model);
+    updateApiStatus(true); liveMode=true;
+    document.getElementById('mode-switch').classList.add('on');
+    document.getElementById('mode-demo-label').style.color='var(--text-tertiary)';
+    document.getElementById('mode-live-label').style.color='var(--green)';
+    setTimeout(closeSettings,800);
+  } catch(e) { updateApiStatus(false); alert('Could not connect. Check your API key.'); }
+}
+function updateApiStatus(ok) { const el=document.getElementById('api-status'),t=document.getElementById('api-status-text'); el.className='api-status '+(ok?'connected':'disconnected'); t.textContent=ok?'Connected':'Not connected'; }
+
+// CLAUDE API
+async function callClaude(sys, usr) {
+  const r = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'}, body:JSON.stringify({model:apiModel,max_tokens:2000,system:sys,messages:[{role:'user',content:usr}]}) });
+  if (!r.ok) throw new Error('API error '+r.status);
+  const d = await r.json(); return d.content.map(c=>c.text||'').join('');
+}
+
+const SYS_LISTING = `You are a senior real estate copywriter specializing in Metro Detroit. You write compelling listing content. You know Detroit neighborhoods deeply: Corktown (Michigan Central Station, Ford campus), Midtown (DIA, Wayne State, walkability), West Village (Parker Street Market), Brush Park, Indian Village, Palmer Woods, Boston-Edison, and every Metro Detroit pocket.
+Rules: Confident voice. No fluff. Reference specific landmarks. Never use em dashes. Never say "stunning" "gorgeous" "dream home" or "don't miss out." Match the requested tone. MLS: 150-250 words, paragraph form. Social: platform-appropriate length with hashtags. Email: include Subject: line. Open house: conversational with neighborhood talking points.`;
+
+const SYS_COMMS = `You are a real estate communication strategist for Metro Detroit agents. You write messages that feel personal, not templated.
+Rules: First person as the agent. Never use em dashes. Match the channel (email=professional with Subject: line, text=casual/brief, DM=friendly/concise). Reference specific details provided. Emails end with [Your Name]/[Your Brokerage]. Adapt urgency to context.`;
+
+// MODULE SWITCHING
+function switchModule(mod) {
+  if (mod===currentModule) return; currentModule=mod;
+  document.querySelectorAll('.module-btn:not(.coming-soon)').forEach(b=>b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.querySelectorAll('.module-page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('mod-'+mod).classList.add('active');
+  if (mod==='comms') renderCommsForm();
+  if (mod==='analyst') renderAnalystForm();
+  if (mod==='intel') renderIntelForm();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// LISTING STUDIO
+function switchListingTab(tab) { currentListingTab=tab; document.querySelectorAll('#listing-tabs .tool-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab)); resetPanel('listing-output'); }
+function getListingData() { return { address:v('l-address')||'1420 Bagley St', beds:v('l-beds'), baths:v('l-baths'), sqft:v('l-sqft')||'1,450', price:v('l-price')||'$225,000', neighborhood:v('l-neighborhood')||'Corktown', features:v('l-features'), tone:v('l-tone') }; }
+function v(id) { const el=document.getElementById(id); return el?el.value:''; }
+
+const NH = { 'Corktown':"Steps from Michigan Central Station, now Ford's innovation campus.", 'Midtown':"Surrounded by the DIA, Wayne State, and a thriving restaurant scene.", 'West Village':"In the West Village, steps from Parker Street Market.", 'default':"One of Metro Detroit's most desirable locations." };
+function getHook(n) { return NH[n]||NH['default']; }
+
+// Demo listing templates
+const demoListing = {
+  mls:(d)=>`Welcome to ${d.address}, a ${d.beds}-bed, ${d.baths}-bath in ${d.neighborhood}.\n\nThis ${d.sqft} sq ft home blends character with modern updates. ${d.features?d.features.split(',').slice(0,2).join(' and ').trim():'Updated kitchen and hardwood floors'} set the tone.\n\n${getHook(d.neighborhood)}\n\nListed at ${d.price}. Schedule your showing today.`,
+  social:(d)=>({instagram:{platform:'Instagram',color:'#F472B6',text:`Just listed in ${d.neighborhood} \u2728\n\n${d.beds} bed \u00b7 ${d.baths} bath \u00b7 ${d.sqft} sqft\n${d.price}\n\nDM "TOUR" for a showing.`,hashtags:`#DetroitRealEstate #${d.neighborhood.replace(/\s/g,'')} #JustListed #MetroDetroit`},facebook:{platform:'Facebook',color:'#60A5FA',text:`New Listing \ud83c\udfe1\n${d.address}\n${d.beds}BR/${d.baths}BA \u00b7 ${d.price}\n\nReach out for a tour.`,hashtags:''},tiktok:{platform:'TikTok/Reels',color:'#FB923C',text:`POV: ${d.beds}-bed in ${d.neighborhood} for ${d.price} \ud83e\udd2f\n\nWho needs a showing? \ud83d\udc47`,hashtags:'#detroitrealestate #justlisted'}}),
+  email:(d)=>`Subject: New listing in ${d.neighborhood}, ${d.beds}BR at ${d.price}\n\nHi [Client Name],\n\nA ${d.beds}-bed, ${d.baths}-bath just came up in ${d.neighborhood} at ${d.price}.\n\n${d.features?d.features.split(',').map(f=>'\u2022 '+f.trim()).join('\n'):'\u2022 Great features'}\n\nAvailable for showings this week.\n\nBest,\n[Your Name]`,
+  openhouse:(d)=>`OPEN HOUSE SCRIPT\n${d.address} \u00b7 ${d.neighborhood}\n${d.beds}BR/${d.baths}BA \u00b7 ${d.sqft} sqft \u00b7 ${d.price}\n\nDOOR: "Welcome! I'm [Name] with [Brokerage]. Take your time, info sheets on the counter."\n\nKITCHEN: "This is where people stop and start picturing themselves here."\n\nNEIGHBORHOOD: ${getHook(d.neighborhood)}\n\nCLOSING: "What's your first impression? Are you working with an agent?"`
+};
+
+async function generateListing() {
+  const btn=event.currentTarget; btn.classList.add('loading'); const d=getListingData();
+  if (liveMode && apiKey) {
+    try {
+      const tabs={mls:'MLS listing description',social:'social media captions for Instagram, Facebook, and TikTok/Reels. Separate platforms with ---. Each section: platform name line, caption, hashtags on separate line.',email:'buyer email with Subject: line',openhouse:'open house script with door greeting, kitchen talking points, neighborhood hooks, closing'};
+      const result = await callClaude(SYS_LISTING, `Write a ${tabs[currentListingTab]} for:\nAddress: ${d.address}\n${d.beds}BR/${d.baths}BA, ${d.sqft} sqft, ${d.price}\nNeighborhood: ${d.neighborhood}\nFeatures: ${d.features}\nTone: ${d.tone}`);
+      btn.classList.remove('loading');
+      if (currentListingTab==='social') renderSocialContent('listing-output',parseSocial(result));
+      else renderTextOutput('listing-output',result,currentListingTab.toUpperCase(),'#4ADE80');
+    } catch(e) { btn.classList.remove('loading'); renderDemoListing(d); }
+  } else { await new Promise(r=>setTimeout(r,1600)); btn.classList.remove('loading'); renderDemoListing(d); }
+}
+function renderDemoListing(d) { if(currentListingTab==='social') renderSocialContent('listing-output',demoListing.social(d)); else renderTextOutput('listing-output',demoListing[currentListingTab](d),currentListingTab.toUpperCase(),'#4ADE80'); }
+function parseSocial(text) {
+  const parts=text.split('---').map(s=>s.trim()).filter(Boolean), cfgs=[{key:'instagram',name:'Instagram',color:'#F472B6'},{key:'facebook',name:'Facebook',color:'#60A5FA'},{key:'tiktok',name:'TikTok/Reels',color:'#FB923C'}], out={};
+  parts.forEach((s,i)=>{ if(i>=cfgs.length)return; const c=cfgs[i], hm=s.match(/(#\w[\w\s#]*$)/m), ht=hm?hm[1].trim():'', mt=ht?s.replace(hm[0],'').trim():s, ls=mt.split('\n'), fl=ls[0].toLowerCase(), bt=(fl.includes('instagram')||fl.includes('facebook')||fl.includes('tiktok')||fl.includes('reels'))?ls.slice(1).join('\n').trim():mt; out[c.key]={platform:c.name,color:c.color,text:bt,hashtags:ht}; });
+  if(!Object.keys(out).length) out.instagram={platform:'Instagram',color:'#F472B6',text:text,hashtags:''};
+  return out;
+}
+
+// COMMS ENGINE
+const commsFormConfigs = {
+  'showing-followup':{title:'Showing follow-up',fields:[{id:'c-client',label:'Client name',type:'input',value:'Sarah & Marcus'},{id:'c-property',label:'Property shown',type:'input',value:'1420 Bagley St, Corktown'},{id:'c-reaction',label:'Their reaction',type:'select',options:['Loved it','Liked it, had concerns','On the fence','Not interested']},{id:'c-notes',label:'Your notes',type:'textarea',value:'Loved the kitchen layout, concerned about street parking, asked if basement could be finished'},{id:'c-channel',label:'Channel',type:'select',options:['Email','Text message','Instagram DM']}]},
+  'showing-feedback':{title:'Showing feedback request',fields:[{id:'c-client',label:'Client name',type:'input',value:'David Chen'},{id:'c-property',label:'Property shown',type:'input',value:'742 Selden St, Midtown'},{id:'c-showing-date',label:'Showing date',type:'input',value:'Yesterday'},{id:'c-channel',label:'Channel',type:'select',options:['Email','Text message']}]},
+  'new-listing-alert':{title:'New listing alert',fields:[{id:'c-client',label:'Client name',type:'input',value:'James & Keisha Moore'},{id:'c-property',label:'Property address',type:'input',value:'3847 Trumbull Ave, Woodbridge'},{id:'c-details',label:'Property details',type:'input',value:'4BR/2BA, 1,800 sqft, $195,000'},{id:'c-why-match',label:'Why this matches them',type:'textarea',value:'Wanted Woodbridge or Corktown, needed 4 bedrooms for kids, budget under $210K'},{id:'c-channel',label:'Channel',type:'select',options:['Email','Text message']}]},
+  'cold-reengagement':{title:'Cold re-engagement',fields:[{id:'c-client',label:'Client name',type:'input',value:'Michelle Thompson'},{id:'c-last-contact',label:'Last contact',type:'input',value:'About 4 months ago'},{id:'c-context',label:'What were they looking for?',type:'textarea',value:'First-time buyer, Ferndale/Royal Oak, $200-250K, got overwhelmed and went quiet'},{id:'c-hook',label:'Re-engagement hook',type:'select',options:['Market update (rates changed)','New inventory that matches','Just checking in','Seasonal (spring market)']},{id:'c-channel',label:'Channel',type:'select',options:['Email','Text message','Instagram DM']}]},
+  'drip-sequence':{title:'Drip sequence builder',fields:[{id:'c-client-type',label:'Client type',type:'select',options:['New buyer lead','Post-showing (interested)','Post-showing (undecided)','Open house sign-in','Sphere of influence']},{id:'c-neighborhood',label:'Target neighborhood',type:'input',value:'Corktown'},{id:'c-price-range',label:'Price range',type:'input',value:'$180K-260K'},{id:'c-sequence-length',label:'Sequence length',type:'select',options:['5 touches (2 weeks)','7 touches (30 days)','10 touches (60 days)']}]}
+};
+
+// Demo comms
+const demoComms = {
+  'showing-followup':(f)=>{const ch=f['c-channel']||'Email',cl=f['c-client']||'Sarah',pr=f['c-property']||'1420 Bagley',no=f['c-notes']||'';if(ch==='Text message')return{type:'text',subject:'',body:`Hey ${cl.split(' ')[0]}! Enjoyed showing you ${pr} today. ${no.includes('kitchen')?'That kitchen is hard to beat.':'Great bones.'}\n\nThoughts? No pressure \ud83c\udfe1`};if(ch==='Instagram DM')return{type:'dm',subject:'',body:`Hey ${cl.split(' ')[0]}! Thanks for coming out \ud83d\ude4f\n\n${pr.split(',')[0]} is special. ${no.includes('kitchen')?'Kitchen is \ud83d\udd25':'Solid bones.'}\n\nHere when you're ready \u2705`};return{type:'email',subject:`Following up on ${pr.split(',')[0]}`,body:`Hi ${cl},\n\nGreat showing you ${pr} today.\n\n${no.includes('kitchen')?'\u2022 The kitchen layout stood out.':'\u2022 The flow seemed right for you.'}${no.includes('parking')?"\n\u2022 Checking on parking permits for that block.":''}${no.includes('basement')?'\n\u2022 I can get a basement finishing estimate.':''}\n\n${f['c-reaction']==='Loved it'?"Recommend we move quickly on this one.":"Take your time. I'm here when questions come up."}\n\nBest,\n[Your Name]`};},
+  'showing-feedback':(f)=>{const ch=f['c-channel']||'Email',cl=f['c-client']||'David',pr=f['c-property']||'742 Selden';if(ch==='Text message')return{type:'text',subject:'',body:`Hey ${cl.split(' ')[0]}! Thoughts on ${pr.split(',')[0]}? Even "not the one" helps me calibrate \ud83d\ude02`};return{type:'email',subject:`Check-in on ${pr.split(',')[0]}`,body:`Hi ${cl.split(' ')[0]},\n\nWould love your honest take on ${pr.split(',')[0]}.\n\n1. Did the layout work?\n2. Neighborhood feel right?\n3. Anything that would need to change?\n\nNo wrong answers.\n\n[Your Name]`};},
+  'new-listing-alert':(f)=>{const cl=f['c-client']||'James',pr=f['c-property']||'3847 Trumbull',dt=f['c-details']||'4BR/2BA',ch=f['c-channel']||'Email';if(ch==='Text message')return{type:'text',subject:'',body:`Hey ${cl.split(' ')[0]}! Just hit the market \ud83d\udc40\n\n${pr}\n${dt}\n\nShowing this week?`};return{type:'email',subject:`This one's for you, ${pr.split(',')[0]}`,body:`Hi ${cl},\n\nThis just came up and matches what we've been looking for:\n\n${pr}\n${dt}\n\nI can get us in as early as tomorrow.\n\nBest,\n[Your Name]`};},
+  'cold-reengagement':(f)=>{const cl=f['c-client']||'Michelle',lc=f['c-last-contact']||'a while',hk=f['c-hook']||'checking in',ch=f['c-channel']||'Email';if(ch==='Text message')return{type:'text',subject:'',body:`Hey ${cl.split(' ')[0]}! It's [Name], we talked ${lc}. No pressure, just checking in. Still thinking about it? \ud83d\ude4f`};if(ch==='Instagram DM')return{type:'dm',subject:'',body:`Hey ${cl.split(' ')[0]}! \ud83d\udc4b Been a minute.\n\nNo pitch, just checking in. Around if you want to pick back up \ud83c\udfe1`};return{type:'email',subject:'Still thinking about it?',body:`Hi ${cl.split(' ')[0]},\n\nIt's been ${lc}. Just a genuine check-in, not a pitch.\n\n${hk.includes('Market')?'The market has shifted in ways that may help you.':hk.includes('inventory')?'Some new listings reminded me of your search.':'Your name came up in my notes.'}\n\nWould love to grab coffee. No spreadsheets.\n\nWarmly,\n[Your Name]`};},
+  'drip-sequence':(f)=>{const nb=f['c-neighborhood']||'Corktown',pr=f['c-price-range']||'$180K-260K';return{type:'sequence',clientType:f['c-client-type']||'New buyer lead',neighborhood:nb,price:pr,sequence:[{day:'Day 0',title:'Welcome + Discovery',desc:`Warm intro. 3 questions: timeline, must-haves, dealbreakers. ${nb} guide.`,filled:true},{day:'Day 2',title:'Neighborhood Deep-dive',desc:`${nb} market snapshot: price/sqft, days on market, recent sales in ${pr}.`,filled:true},{day:'Day 5',title:'Curated Listings',desc:'2-3 matches + one stretch option to test flexibility.',filled:false},{day:'Day 8',title:'Value-add Content',desc:'Buyer tip, rate update, or Detroit buying insight.',filled:false},{day:'Day 14',title:'Soft Check-in',desc:`"Still thinking about ${nb}? Saw a couple things."`,filled:false},{day:'Day 21',title:'Market Movement',desc:`Data point: "3 homes sold in ${nb} this week in your range."`,filled:false},{day:'Day 30',title:'Coffee Invite',desc:'No agenda. Just hear where their head is at.',filled:false}]};}
+};
+
+function switchCommsTab(tab) { currentCommsTab=tab; document.querySelectorAll('#comms-tabs .tool-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab)); renderCommsForm(); resetPanel('comms-output'); }
+function renderCommsForm() {
+  const cfg=commsFormConfigs[currentCommsTab]; if(!cfg)return; const p=document.getElementById('comms-input-panel');
+  let h=`<div class="panel-header"><h3>${cfg.title}</h3><span class="step-badge">Step 1</span></div>`;
+  cfg.fields.forEach(f=>{h+=`<div class="form-group"><label>${f.label}</label>`;if(f.type==='input')h+=`<input type="text" id="${f.id}" placeholder="${f.placeholder||''}" value="${f.value||''}">`;else if(f.type==='textarea')h+=`<textarea id="${f.id}" placeholder="${f.placeholder||''}">${f.value||''}</textarea>`;else if(f.type==='select')h+=`<select id="${f.id}">${f.options.map((o,i)=>`<option value="${o}"${i===0?' selected':''}>${o}</option>`).join('')}</select>`;h+='</div>';});
+  h+=`<button class="generate-btn" onclick="generateComms()">Generate Message<span class="spinner"></span></button>`;
+  p.innerHTML=h;
+}
+function getCommsData() { const cfg=commsFormConfigs[currentCommsTab],d={}; cfg.fields.forEach(f=>{const el=document.getElementById(f.id);if(el)d[f.id]=el.value;}); return d; }
+
+async function generateComms() {
+  const btn=event.currentTarget; btn.classList.add('loading'); const data=getCommsData();
+  if (liveMode && apiKey && currentCommsTab!=='drip-sequence') {
+    try {
+      const cfg=commsFormConfigs[currentCommsTab]; let pp=cfg.fields.map(f=>`${f.label}: ${data[f.id]||'not provided'}`).join('\n');
+      const result = await callClaude(SYS_COMMS, `Write a ${cfg.title} message:\n\n${pp}\n\nWrite ONLY the message. For email start with "Subject: ..." line. Match the channel format.`);
+      btn.classList.remove('loading');
+      const ch=data['c-channel']||'Email'; let type=ch==='Text message'?'text':ch==='Instagram DM'?'dm':'email';
+      let subject='',body=result;
+      if(type==='email'&&result.startsWith('Subject:')){ const ls=result.split('\n'); subject=ls[0].replace('Subject:','').trim(); body=ls.slice(1).join('\n').trim(); }
+      renderEmailOutput('comms-output',{type,subject,body});
+    } catch(e) { btn.classList.remove('loading'); renderDemoComms(data); }
+  } else { await new Promise(r=>setTimeout(r,1400)); btn.classList.remove('loading'); renderDemoComms(data); }
+}
+function renderDemoComms(data) { const r=demoComms[currentCommsTab](data); if(r.type==='sequence')renderSequence('comms-output',r); else renderEmailOutput('comms-output',r); }
+
+// RENDERERS
+function renderTextOutput(pid,text,label,dot) { const el=document.getElementById(pid),id='t'+Date.now(); el.innerHTML=`<div class="gen-content"><div class="gen-section"><div class="gen-section-label"><span class="label-dot" style="background:${dot}"></span>${label}</div><div class="gen-card"><div class="gen-text" id="${id}"></div></div><button class="copy-btn" onclick="copyText(this,'${id}')">Copy to clipboard</button></div></div>`; typeText(text,document.getElementById(id)); }
+function renderSocialContent(pid,platforms) { const el=document.getElementById(pid); let h='<div class="gen-content">'; Object.entries(platforms).forEach(([k,p],i)=>{const id='s'+k; h+=`<div class="gen-section" style="animation-delay:${i*.15}s"><div class="gen-section-label"><span class="label-dot" style="background:${p.color}"></span>${p.platform}</div><div class="gen-card"><div class="gen-card-header"><span class="gen-card-platform" style="color:${p.color}">${p.platform}</span><span class="gen-card-chars">${p.text.length} chars</span></div><p id="${id}">${esc(p.text)}</p>${p.hashtags?`<div class="hashtags">${esc(p.hashtags)}</div>`:''}</div><button class="copy-btn" onclick="copyText(this,'${id}')">Copy to clipboard</button></div>`;}); el.innerHTML=h+'</div>'; }
+function renderEmailOutput(pid,r) { const el=document.getElementById(pid),id='e'+Date.now(),cl=r.type==='text'?'Text Message':r.type==='dm'?'Instagram DM':'Email',cc=r.type==='text'?'#4ADE80':r.type==='dm'?'#F472B6':'#60A5FA'; let h=`<div class="gen-content"><div class="gen-section"><div class="gen-section-label"><span class="label-dot" style="background:${cc}"></span>${cl}</div>`; if(r.type==='email'&&r.subject)h+=`<div class="email-preview"><div class="email-preview-bar"><div class="email-field"><span class="email-field-label">Subject</span><span class="email-field-subject">${esc(r.subject)}</span></div></div><div class="email-preview-body" id="${id}"></div></div>`;else h+=`<div class="gen-card"><div class="gen-text" id="${id}"></div></div>`; h+=`<button class="copy-btn" onclick="copyText(this,'${id}')">Copy to clipboard</button></div></div>`; el.innerHTML=h; typeText(r.body,document.getElementById(id)); }
+function renderSequence(pid,r) { const el=document.getElementById(pid); let h=`<div class="gen-content"><div class="gen-section"><div class="gen-section-label"><span class="label-dot" style="background:#A78BFA"></span>Drip Sequence, ${esc(r.clientType)}</div><div style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">${esc(r.neighborhood)} \u00b7 ${esc(r.price)}</div><div class="sequence-timeline">`; r.sequence.forEach((s,i)=>{const last=i===r.sequence.length-1; h+=`<div class="seq-item"><div class="seq-line"><div class="seq-dot ${s.filled?'filled':''}"></div>${!last?'<div class="seq-connector"></div>':''}</div><div class="seq-content"><div class="seq-day">${esc(s.day)}</div><div class="seq-title">${esc(s.title)}</div><div class="seq-desc">${esc(s.desc)}</div></div></div>`;}); h+=`</div></div><button class="copy-btn" onclick="copyAllFrom('${pid}')">Copy full sequence</button></div>`; el.innerHTML=h; }
+
+// UTILS
+function typeText(text,el){let i=0;el.textContent='';(function go(){if(i<text.length){el.textContent+=text.slice(i,i+3);i+=3;setTimeout(go,8);}})();}
+function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML.replace(/\n/g,'<br>');}
+function addToField(id,val){const el=document.getElementById(id);el.value=el.value.trim()?el.value.trim()+', '+val:val;}
+function copyText(btn,id){navigator.clipboard.writeText((document.getElementById(id).textContent||document.getElementById(id).innerText)).then(()=>{btn.classList.add('copied');btn.textContent='Copied!';setTimeout(()=>{btn.classList.remove('copied');btn.textContent='Copy to clipboard';},2000);});}
+function copyAllFrom(pid){navigator.clipboard.writeText(document.getElementById(pid).innerText);}
+function resetPanel(pid){const el=document.getElementById(pid),icons={'comms-output':'&#9993;','analyst-output':'&#9883;','intel-output':'&#9878;'},titles={'comms-output':'Pick a message type','analyst-output':'Enter a neighborhood or property','intel-output':'Detroit intelligence on demand'},ic=icons[pid]||'&#x270D;',ti=titles[pid]||'Ready when you are';el.innerHTML=`<div class="empty-state"><div class="empty-icon">${ic}</div><h4>${ti}</h4><p>Fill in details and generate.</p></div>`;}
+
+// DETROIT MARKET INTEL (Module 4)
+let currentIntelTab='tax-lien';
+const intelFormConfigs={
+  'tax-lien':{title:'Tax lien scout',fields:[
+    {id:'i-neighborhood',label:'Neighborhood / ZIP',type:'input',value:'Corktown / 48216'},
+    {id:'i-strategy',label:'Your angle',type:'select',options:['Find distressed properties to buy','Identify pre-foreclosure opportunities','Advise seller on lien resolution','General awareness for buyer clients']},
+    {id:'i-price-range',label:'Target price range',type:'input',value:'$50K-200K'}
+  ]},
+  'vacancy':{title:'Vacancy report',fields:[
+    {id:'i-neighborhood2',label:'Neighborhood',type:'input',value:'Fitzgerald'},
+    {id:'i-radius',label:'Report scope',type:'select',options:['Specific block / street','Neighborhood-wide','ZIP code level']},
+    {id:'i-purpose',label:'Purpose',type:'select',options:['Identify acquisition targets','Client safety / livability assessment','Development opportunity mapping','Land bank partnership opportunities']}
+  ]},
+  'development':{title:'Development tracker',fields:[
+    {id:'i-neighborhood3',label:'Neighborhood',type:'input',value:'Corktown'},
+    {id:'i-dev-type',label:'Development types',type:'select',options:['All active developments','Residential (new construction)','Commercial / mixed-use','Infrastructure / public','Demolition / land clearing']},
+    {id:'i-timeframe',label:'Timeframe',type:'select',options:['Active now','Announced / permitted','Completed last 12 months','Pipeline (next 2-3 years)']}
+  ]},
+  'momentum':{title:'Momentum score',fields:[
+    {id:'i-neighborhood4',label:'Neighborhood',type:'input',value:'Corktown'},
+    {id:'i-compare',label:'Compare against',type:'input',placeholder:'Midtown, West Village...',value:'Midtown, West Village, Brush Park'},
+    {id:'i-factors',label:'Weight toward',type:'select',options:['Balanced (all factors equal)','Price appreciation','Development activity','Population / occupancy growth','Business / retail growth']}
+  ]},
+  'opportunity':{title:'Opportunity brief',fields:[
+    {id:'i-client-type',label:'Client type',type:'select',options:['Investor (buy & hold)','Investor (flip)','Developer','First-time buyer (value play)','Agent prospecting (find listings)']},
+    {id:'i-budget2',label:'Budget',type:'input',value:'$75K-175K'},
+    {id:'i-risk',label:'Risk tolerance',type:'select',options:['Conservative (established neighborhoods)','Moderate (improving neighborhoods)','Aggressive (emerging / speculative)']},
+    {id:'i-target-area',label:'Target areas (or "anywhere in Detroit")',type:'input',value:'Open to anywhere with momentum'}
+  ]}
+};
+
+const SYS_INTEL=`You are a Detroit real estate market intelligence analyst with deep knowledge of Detroit's public data landscape. You produce actionable intelligence reports that give agents and investors an edge.
+
+Your knowledge includes:
+- Wayne County tax foreclosure cycles (annual auction typically September/October)
+- Detroit Land Bank Authority (DLBA) inventory and side lot program
+- City of Detroit demolition program and blight remediation
+- Vacancy patterns and occupied vs. unoccupied rates by neighborhood
+- Active development projects, permits filed, and construction activity
+- Michigan State Housing Development Authority (MSHDA) programs
+- Neighborhood Enterprise Zones (NEZ) tax abatements
+- Opportunity Zones within Detroit
+- Detroit Strategic Neighborhood Fund investments
+- Motor City Match and other small business grants affecting commercial corridors
+
+Key Detroit data realities:
+- Corktown: Ford Michigan Central ($950M), lowest vacancy in the city, most active development
+- Midtown: Henry Ford Health ($2.5B), Wayne State, institutional anchor, very low vacancy
+- Fitzgerald: Revitalization project area, significant DLBA activity, Strategic Neighborhood Fund
+- Brightmoor: High vacancy, active demolition, some community-led revitalization
+- Grandmont Rosedale: Stable, strong block clubs, moderate pricing, good value
+- Banglatown/East side: Emerging community investment, very affordable entry
+- Southwest Detroit: Vibrant commercial corridor (Vernor), cultural anchor, appreciation starting
+
+Rules: Be specific with Detroit data. Never use em dashes. Note when data should be verified with county records. Include actionable next steps. Reference real programs and institutions. Be honest about risks.`;
+
+const demoIntel={
+  'tax-lien':(f)=>{const nb=f['i-neighborhood']||'Corktown',strat=f['i-strategy']||'Find distressed',pr=f['i-price-range']||'$50K-200K';return `TAX LIEN SCOUT: ${nb.toUpperCase()}\n\nOVERVIEW\nWayne County conducts annual tax foreclosure auctions (typically September/October). Properties with 3+ years of delinquent taxes enter the foreclosure pipeline. This creates acquisition opportunities, but also requires careful due diligence.\n\nCURRENT LANDSCAPE: ${nb.split('/')[0].trim()}\n${nb.includes('Corktown')?'\u2022 Very few tax-delinquent properties remain in Corktown due to rapid appreciation\n\u2022 Most distressed inventory was acquired 2015-2020\n\u2022 Remaining opportunities are typically estate situations or title issues\n\u2022 Expect heavy competition at any auction for Corktown parcels':nb.includes('Fitzgerald')?'\u2022 Moderate tax delinquency rate\n\u2022 Detroit Land Bank holds significant inventory\n\u2022 Strategic Neighborhood Fund is actively investing\n\u2022 Side lot program available for adjacent homeowners':'\u2022 Tax delinquency varies block by block\n\u2022 Check Wayne County Treasurer site for current delinquent list\n\u2022 Cross-reference with DLBA inventory for land bank properties'}\n\nACTIONABLE STEPS\n1. Search Wayne County Treasurer tax auction list (waynecounty.com/treasurer)\n2. Cross-reference addresses with Detroit Land Bank (buildingdetroit.org)\n3. Check property condition on Google Street View before visiting\n4. Pull title search through title company (expect $150-300)\n5. Budget for back taxes, title clearing, and any environmental issues\n\n${strat.includes('pre-foreclosure')?'PRE-FORECLOSURE APPROACH\n\u2022 Properties with 1-2 years delinquent taxes are "pre-foreclosure"\n\u2022 Owners may be motivated to sell before auction\n\u2022 Direct mail to delinquent tax addresses can generate leads\n\u2022 Offer to solve their problem (buy the property, cover back taxes)\n\u2022 Always verify total tax owed + any other liens before making offers':''}\n\nRISK FACTORS\n\u2022 Title issues are common on tax-foreclosed properties in Detroit\n\u2022 Environmental contamination possible on former commercial/industrial parcels\n\u2022 Some properties have water liens that transfer to new owners\n\u2022 Condition is often worse than exterior suggests\n\u2022 Insurance can be difficult/expensive for vacant properties\n\nPRICE CONTEXT\nAt ${pr}, you're ${nb.includes('Corktown')?'unlikely to find tax lien opportunities in Corktown proper, but adjacent areas (Hubbard Farms, North Corktown) may have options':'in range for multiple acquisition opportunities, especially at auction'}\n\nDATA NOTE: Verify all tax status through Wayne County Treasurer. Tax auction inventory changes annually.`;},
+
+  'vacancy':(f)=>{const nb=f['i-neighborhood2']||'Fitzgerald',purp=f['i-purpose']||'';return `VACANCY REPORT: ${nb.toUpperCase()}\n\nOVERVIEW\nDetroit's citywide vacancy rate has declined from its peak but remains significant. Vacancy patterns vary dramatically by neighborhood and even by block.\n\n${nb} VACANCY PROFILE\n${nb==='Fitzgerald'?'\u2022 Vacancy rate: Moderate-high (estimated 25-35% of parcels)\n\u2022 Trend: Improving. Active revitalization since 2017.\n\u2022 Detroit Land Bank: Significant inventory holder in this area\n\u2022 Strategic Neighborhood Fund: Active investment area\n\u2022 Demolition activity: Ongoing, clearing worst structures\n\u2022 Community: Fitzgerald Revitalization Project bringing coordinated investment':nb==='Corktown'?'\u2022 Vacancy rate: Very low (estimated under 5%)\n\u2022 Trend: Nearly fully occupied. Remaining vacant parcels are in development pipeline.\n\u2022 Most "vacant" lots have active plans or are land-banked for future projects\n\u2022 This is one of Detroit\'s tightest markets':'\u2022 Vacancy rate: Varies by block\n\u2022 Check DLBA map (buildingdetroit.org) for current inventory\n\u2022 Motor City Mapping data available for parcel-level condition'}\n\nVACANCY TYPES IN DETROIT\n\u2022 Occupied and maintained (not truly vacant)\n\u2022 Unoccupied but maintained (estate, seasonal, for-sale)\n\u2022 Unoccupied and deteriorating (target for acquisition or demolition)\n\u2022 Open and dangerous (city demolition priority)\n\u2022 Vacant lot (structure previously demolished)\n\nDATA SOURCES\n1. Detroit Land Bank Authority map: buildingdetroit.org\n2. Motor City Mapping: detailed parcel surveys\n3. Detroit Open Data Portal: data.detroitmi.gov\n4. Drive the blocks (nothing replaces boots on ground)\n\n${purp.includes('acquisition')?'ACQUISITION OPPORTUNITY\n\u2022 DLBA auction properties: buildingdetroit.org/auction\n\u2022 Side lot program: $100 for adjacent vacant lots\n\u2022 Own-it-now program: Fixed-price DLBA inventory\n\u2022 Community partner sales: Discounted for qualifying buyers/developers':''}${purp.includes('safety')?'CLIENT LIVABILITY NOTE\n\u2022 Vacancy on a block correlates with property crime risk\n\u2022 Blocks with 70%+ occupancy generally feel stable and safe\n\u2022 Active block clubs are the strongest predictor of block-level safety\n\u2022 Drive the block at different times of day before advising clients':''}\n\nNEXT STEPS\n\u2022 Pull the DLBA map for ${nb} and identify inventory\n\u2022 Cross-reference with Wayne County tax status\n\u2022 Drive the target blocks (weekday evening is most revealing)\n\u2022 Talk to neighbors. They know who owns what and what's happening.`;},
+
+  'development':(f)=>{const nb=f['i-neighborhood3']||'Corktown',dt=f['i-dev-type']||'All',tf=f['i-timeframe']||'Active';return `DEVELOPMENT TRACKER: ${nb.toUpperCase()}\n\n${nb==='Corktown'?`MAJOR ACTIVE DEVELOPMENTS\n\n1. MICHIGAN CENTRAL STATION (Ford Motor Co.)\n   Status: Active, phased opening\n   Scale: $950M investment, 30-acre campus\n   Impact: 5,000+ jobs, mobility innovation hub\n   Timeline: Ongoing through 2026+\n   Agent angle: "The single largest private investment in Detroit's history, walking distance from this property."\n\n2. MICHIGAN AVE CORRIDOR\n   Status: Ongoing expansion\n   Scale: Multiple restaurant, retail, and mixed-use projects\n   Impact: Increased foot traffic, higher retail rents, neighborhood amenity density\n   Notable: Continued buildout of dining and nightlife corridor\n\n3. RESIDENTIAL INFILL\n   Status: Multiple projects active\n   Scale: New construction and historic rehab on formerly vacant lots\n   Impact: Filling gaps, increasing density, improving block-level aesthetics\n   Price points: New construction $350K-500K+\n\n4. TRUMBULL CORRIDOR\n   Status: Active development\n   Scale: Mixed-use and residential projects\n   Impact: Connecting Corktown to North Corktown, expanding the neighborhood's footprint`
+
+:nb==='Midtown'?`MAJOR ACTIVE DEVELOPMENTS\n\n1. HENRY FORD HEALTH CAMPUS EXPANSION\n   Status: Active construction\n   Scale: $2.5 billion, largest single investment in Detroit\n   Impact: Healthcare, research, jobs, ancillary business growth\n   Timeline: Multi-year phased buildout\n\n2. WOODWARD CORRIDOR MIXED-USE\n   Status: Multiple projects\n   Scale: Retail, residential, and office along Woodward\n   Impact: Increasing density and walkability\n\n3. WAYNE STATE CAMPUS\n   Status: Ongoing improvements\n   Scale: Student housing, research facilities\n   Impact: Steady institutional demand for housing and services`
+
+:`DEVELOPMENT ACTIVITY: ${nb}\n\n\u2022 Check Detroit Building Department permits: detroitmi.gov/departments/buildings-safety-engineering-and-environmental-department\n\u2022 Monitor Detroit City Council agendas for zoning changes and tax abatements\n\u2022 Follow Curbed Detroit, Crain's Detroit Business, and Detroit Free Press real estate coverage\n\u2022 DEGC (Detroit Economic Growth Corporation) publishes project data\n\nFor a comprehensive ${nb} development report with current permits and construction activity, switch to Live mode.`}\n\nHOW TO USE THIS\n\u2022 Reference specific projects when pitching buyers on neighborhood trajectory\n\u2022 "The Ford campus isn't a rumor or a plan. It's $950M in the ground, actively hiring."\n\u2022 Development = jobs = housing demand = appreciation\n\u2022 Track which blocks are adjacent to new development (appreciation radiates outward)\n\nDATA SOURCES\n\u2022 Detroit Building Dept permits\n\u2022 DEGC project database\n\u2022 Crain's Detroit Business development tracker\n\u2022 City Council meeting minutes (zoning approvals)`;},
+
+  'momentum':(f)=>{const nb=f['i-neighborhood4']||'Corktown',comp=(f['i-compare']||'Midtown, West Village').split(',').map(s=>s.trim()),wt=f['i-factors']||'Balanced';
+    const scores={'Corktown':{appreciation:95,development:98,population:82,business:90,overall:91},'Midtown':{appreciation:85,development:92,population:88,business:95,overall:90},'West Village':{appreciation:78,development:65,population:72,business:70,overall:71},'Brush Park':{appreciation:88,development:85,population:60,business:55,overall:72},'Fitzgerald':{appreciation:45,development:55,population:40,business:35,overall:44},'Woodbridge':{appreciation:65,development:50,population:68,business:52,overall:59}};
+    const primary=scores[nb]||{appreciation:60,development:50,population:55,business:45,overall:53};
+    let report=`MOMENTUM SCORE: ${nb.toUpperCase()}\n\nOVERALL SCORE: ${primary.overall}/100\n\n`;
+    report+=`FACTOR BREAKDOWN\n\u2022 Price Appreciation: ${primary.appreciation}/100\n\u2022 Development Activity: ${primary.development}/100\n\u2022 Population/Occupancy Growth: ${primary.population}/100\n\u2022 Business/Retail Growth: ${primary.business}/100\n\n`;
+    report+=`COMPARISON\n${'Neighborhood'.padEnd(20)} Overall  Appreciation  Development  Population  Business\n`;
+    report+=`${nb.padEnd(20)} ${String(primary.overall).padEnd(9)}${String(primary.appreciation).padEnd(14)}${String(primary.development).padEnd(13)}${String(primary.population).padEnd(12)}${primary.business}\n`;
+    comp.forEach(c=>{const s=scores[c];if(s){report+=`${c.padEnd(20)} ${String(s.overall).padEnd(9)}${String(s.appreciation).padEnd(14)}${String(s.development).padEnd(13)}${String(s.population).padEnd(12)}${s.business}\n`;}});
+    report+=`\nINTERPRETATION\n`;
+    report+=primary.overall>=85?`${nb} is a top-tier momentum neighborhood. Strong across all factors. Entry points are getting expensive, but the trajectory is backed by institutional investment. This is a "buy for appreciation and lifestyle" market.`:primary.overall>=65?`${nb} is showing solid momentum with room to grow. Not yet priced like the top tier, which creates opportunity. Watch for development catalysts that could accelerate the curve.`:primary.overall>=45?`${nb} is in early stages of momentum. Higher risk but higher potential upside. Best for investors with longer time horizons and tolerance for neighborhood variability.`:`${nb} is pre-momentum. Speculative territory. Only for investors who understand Detroit block-by-block dynamics and can tolerate uncertainty.`;
+    report+=`\n\nWHAT DRIVES THE SCORE\n\u2022 Appreciation: Median price trajectory over 3-5 years, price/sqft trends\n\u2022 Development: Active permits, construction spend, announced projects\n\u2022 Population: Occupancy rates, move-in vs. move-out, Census trends\n\u2022 Business: New retail/restaurant openings, commercial occupancy, foot traffic\n\nMETHODOLOGY NOTE: Scores are estimated based on public data, market knowledge, and trend analysis. Not a proprietary algorithm. Use as a directional tool, not a precise measurement. In Live mode, Claude generates custom analysis with current context.`;
+    return report;},
+
+  'opportunity':(f)=>{const ct=f['i-client-type']||'Investor',budget=f['i-budget2']||'$75K-175K',risk=f['i-risk']||'Moderate',area=f['i-target-area']||'anywhere';
+    return `OPPORTUNITY BRIEF\n${ct} | ${budget} | Risk: ${risk}\n\nTARGET NEIGHBORHOODS\n${risk.includes('Conservative')?`\u2022 Grandmont Rosedale: Stable, strong block clubs, $100K-200K range, cash flow friendly\n\u2022 Rosedale Park: Well-maintained housing stock, community pride, good rental demand\n\u2022 East English Village: Organized neighborhood association, improving steadily\n\u2022 University District: Near U of D Mercy, solid rental demand from students/staff`:risk.includes('Moderate')?`\u2022 Woodbridge: Walkable to Midtown, appreciating, $120K-250K range\n\u2022 Fitzgerald: Strategic Neighborhood Fund investment, upside potential\n\u2022 Banglatown/Campau: Emerging commercial corridor, very affordable entry\n\u2022 Southwest Detroit (Vernor corridor): Cultural anchor, business growth, appreciation starting`:`\u2022 Brightmoor: Very affordable ($20K-60K), high vacancy, long-term speculative play\n\u2022 East side pockets: Block-by-block opportunity, requires deep local knowledge\n\u2022 Near DLBA bulk sales: Land bank sometimes offers portfolio deals\n\u2022 North End: Adjacent to New Center, some development pressure starting`}\n\n${ct.includes('buy & hold')?`BUY & HOLD PLAYBOOK\n1. Target: 2-3BR single family in neighborhoods above\n2. Acquisition: ${budget.split('-')[0]||'$75K'} purchase price target\n3. Renovation: Budget $15-40K for tenant-ready condition\n4. Rent: $900-1,400/mo depending on area and condition\n5. Hold: Minimum 5-year horizon to capture appreciation\n6. Key metric: Target 1% rule (monthly rent = 1% of all-in cost)\n\nDETROIT-SPECIFIC CONSIDERATIONS\n\u2022 Property taxes: Higher than suburbs. Factor accurately.\n\u2022 Insurance: Can be expensive for certain ZIP codes. Get quotes early.\n\u2022 Section 8: Strong demand. Detroit Housing Commission waitlist is long. Guaranteed rent.\n\u2022 Water bills: Detroit water dept can place liens. Verify status before closing.\n\u2022 Lead paint: Pre-1978 homes require disclosure. Budget for remediation if needed.`
+
+:ct.includes('flip')?`FLIP PLAYBOOK\n1. Target: Properties needing cosmetic renovation in appreciating neighborhoods\n2. Buy at: Bottom of ${budget} range\n3. Rehab budget: $30-60K for full cosmetic (kitchen, bath, floors, paint, systems touch-up)\n4. Timeline: 3-4 months renovation, 1-2 months on market\n5. Target ARV: 1.5-2x your all-in cost\n\nBEST FLIP NEIGHBORHOODS RIGHT NOW\n\u2022 Woodbridge (strong comps, buyer demand)\n\u2022 Grandmont Rosedale (move-in ready homes sell fast)\n\u2022 Near Corktown / North Corktown (halo effect from Ford campus)`
+
+:`OPPORTUNITY FRAMEWORK\n\u2022 At ${budget}, Detroit offers real options across multiple strategies\n\u2022 The key is matching your client's risk tolerance to the right neighborhood\n\u2022 Conservative = established neighborhoods with proven demand\n\u2022 Aggressive = emerging areas where $1 today could be $3 in five years`}\n\nPROGRAMS TO LEVERAGE\n\u2022 NEZ (Neighborhood Enterprise Zone): Tax abatement on renovation, significant savings\n\u2022 Opportunity Zones: Tax benefits on capital gains for qualifying investments\n\u2022 MSHDA down payment assistance: Up to $10K for qualifying buyers\n\u2022 Detroit Land Bank programs: Side lots ($100), auction, own-it-now\n\u2022 Motor City Match: Grants for commercial tenants (if mixed-use play)\n\nNEXT STEPS\n1. Define exact target blocks (drive them)\n2. Pull tax records for any target properties (Wayne County Treasurer)\n3. Get contractor walk-throughs for rehab estimates\n4. Line up financing (local lenders who know Detroit: Flagstar, Level One, Lake Michigan CU)\n5. Connect with a title company experienced in Detroit closings\n\nDISCLAIMER: This is market intelligence, not financial advice. Verify all data with official sources. Consult CPA and/or attorney before investing.`;}
+};
+
+function switchIntelTab(tab){currentIntelTab=tab;document.querySelectorAll('#intel-tabs .tool-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));renderIntelForm();resetPanel('intel-output');}
+function renderIntelForm(){const cfg=intelFormConfigs[currentIntelTab];if(!cfg)return;const p=document.getElementById('intel-input-panel');let h=`<div class="panel-header"><h3>${cfg.title}</h3><span class="step-badge">Step 1</span></div>`;cfg.fields.forEach(f=>{h+=`<div class="form-group"><label>${f.label}</label>`;if(f.type==='input')h+=`<input type="text" id="${f.id}" placeholder="${f.placeholder||''}" value="${f.value||''}">`;else if(f.type==='textarea')h+=`<textarea id="${f.id}" placeholder="${f.placeholder||''}">${f.value||''}</textarea>`;else if(f.type==='select')h+=`<select id="${f.id}">${f.options.map((o,i)=>`<option value="${o}"${i===0?' selected':''}>${o}</option>`).join('')}</select>`;h+='</div>';});h+=`<button class="generate-btn" onclick="generateIntel()">Generate Intel<span class="spinner"></span></button>`;p.innerHTML=h;}
+function getIntelData(){const cfg=intelFormConfigs[currentIntelTab],d={};cfg.fields.forEach(f=>{const el=document.getElementById(f.id);if(el)d[f.id]=el.value;});return d;}
+async function generateIntel(){const btn=event.currentTarget;btn.classList.add('loading');const data=getIntelData();if(liveMode&&apiKey){try{const cfg=intelFormConfigs[currentIntelTab];let pp=cfg.fields.map(f=>`${f.label}: ${data[f.id]||'not provided'}`).join('\n');const prompts={'tax-lien':'Generate a tax lien intelligence report. Include: current landscape, actionable steps with specific websites/resources, risk factors, price context, and data verification notes.','vacancy':'Generate a vacancy analysis report. Include: vacancy profile, types of vacancy, data sources with URLs, actionable next steps, and client-facing notes if applicable.','development':'Generate a development tracker report. Include: major active developments with status/scale/impact/timeline, how to use the data in client conversations, and data sources.','momentum':'Generate a neighborhood momentum score analysis. Score out of 100 on: Price Appreciation, Development Activity, Population Growth, Business Growth. Include comparison table if neighborhoods provided, interpretation, and methodology note.','opportunity':'Generate an opportunity brief. Include: recommended target neighborhoods with rationale, a specific playbook for their strategy, Detroit-specific considerations, programs to leverage (NEZ, Opportunity Zones, MSHDA, DLBA), and next steps.'};const result=await callClaude(SYS_INTEL,`${prompts[currentIntelTab]}\n\nDetails:\n${pp}`);btn.classList.remove('loading');const colors={'tax-lien':'#FB923C','vacancy':'#F472B6','development':'#60A5FA','momentum':'#A78BFA','opportunity':'#4ADE80'};renderTextOutput('intel-output',result,cfg.title.toUpperCase(),colors[currentIntelTab]||'#60A5FA');}catch(e){btn.classList.remove('loading');renderDemoIntel(data);}}else{await new Promise(r=>setTimeout(r,2200));btn.classList.remove('loading');renderDemoIntel(data);}}
+function renderDemoIntel(data){const colors={'tax-lien':'#FB923C','vacancy':'#F472B6','development':'#60A5FA','momentum':'#A78BFA','opportunity':'#4ADE80'};renderTextOutput('intel-output',demoIntel[currentIntelTab](data),intelFormConfigs[currentIntelTab].title.toUpperCase(),colors[currentIntelTab]||'#60A5FA');}
+
+renderCommsForm();
+renderAnalystForm();
+renderIntelForm();
+let currentAnalystTab = 'neighborhood-brief';
+const analystFormConfigs = {
+  'neighborhood-brief': { title:'Neighborhood brief', fields:[
+    {id:'a-neighborhood',label:'Neighborhood',type:'select',options:['Corktown','Midtown','West Village','Woodbridge','Brush Park','Indian Village','Palmer Woods','Boston-Edison','Sherwood Forest','Grandmont Rosedale','Rosedale Park','East English Village','Royal Oak','Ferndale','Hamtramck','Dearborn','Birmingham']},
+    {id:'a-audience',label:'Brief is for',type:'select',options:['Buyer client (relocating)','Buyer client (local)','Investor client','Seller (pricing context)','My own prep']},
+    {id:'a-focus',label:'Focus areas',type:'select',options:['General overview','Walkability + lifestyle','Investment + appreciation','Schools + families','Development + future growth']}
+  ]},
+  'property-snapshot': { title:'Property snapshot', fields:[
+    {id:'a-address',label:'Property address',type:'input',placeholder:'1420 Bagley St, Detroit',value:'1420 Bagley St, Detroit'},
+    {id:'a-neighborhood2',label:'Neighborhood',type:'input',value:'Corktown'},
+    {id:'a-specs',label:'Property specs',type:'input',placeholder:'3BR/2BA, 1,450 sqft, built 1920',value:'3BR/2BA, 1,450 sqft, built 1920'},
+    {id:'a-price2',label:'List price',type:'input',value:'$225,000'},
+    {id:'a-context',label:'Additional context',type:'textarea',placeholder:'Renovated kitchen, corner lot...',value:'Updated kitchen, original hardwoods, new roof 2024, walkable to Michigan Central'}
+  ]},
+  'buyer-pitch': { title:'Buyer pitch prep', fields:[
+    {id:'a-neighborhood3',label:'Neighborhood',type:'input',value:'Corktown'},
+    {id:'a-buyer-type',label:'Buyer type',type:'select',options:['First-time buyer','Move-up buyer','Relocating from out of state','Investor','Downsizer']},
+    {id:'a-priorities',label:'Their priorities',type:'textarea',value:'Walkable to restaurants, under $250K, wants historic character, concerned about safety'},
+    {id:'a-objections',label:'Likely objections',type:'textarea',value:'Worried about Detroit safety perception, property taxes, resale value'}
+  ]},
+  'investment-angle': { title:'Investment angle', fields:[
+    {id:'a-neighborhood4',label:'Neighborhood',type:'input',value:'Corktown'},
+    {id:'a-property-type',label:'Property type',type:'select',options:['Single family (buy & hold)','Single family (flip)','Multi-family','Vacant lot','Commercial conversion']},
+    {id:'a-budget',label:'Budget range',type:'input',value:'$150K-250K'},
+    {id:'a-strategy',label:'Investment strategy',type:'select',options:['Cash flow rental','Appreciation play','BRRRR','House hack','Short-term rental (Airbnb)','Land bank for development']}
+  ]}
+};
+
+const SYS_ANALYST=`You are a Metro Detroit real estate market analyst. You produce concise, data-informed briefs agents use in client meetings. You know Detroit neighborhoods deeply: Corktown (Ford/Michigan Central, oldest neighborhood, $250K+ median), Midtown (DIA, Wayne State, Henry Ford Health $2.5B expansion, most walkable), West Village (Parker Street Market, walkable east side), Brush Park (City Modern, new construction), Indian Village (prestigious historic, $300K-800K+), Palmer Woods (estate lots, exclusive), Boston-Edison (historic mansions), Woodbridge (walkable to Midtown), Royal Oak (suburban walkability, strong schools), Ferndale (progressive, DIY arts), Birmingham (premier suburb, luxury). Rules: Be specific. Never use em dashes. Include verbatim talking points. Reference real developments. For investment, include realistic numbers. Note data limitations honestly.`;
+
+const demoAnalyst = {
+  'neighborhood-brief': (f) => { const nb=f['a-neighborhood']||'Corktown'; const briefs={'Corktown':`NEIGHBORHOOD BRIEF: CORKTOWN\n\nOVERVIEW\nDetroit's oldest surviving neighborhood. One of the city's most desirable addresses, driven by Ford's $950M Michigan Central Station investment.\n\nMARKET SNAPSHOT\n\u2022 Median home price: ~$250K-300K (up from ~$100K five years ago)\n\u2022 Price/sqft: $150-200+\n\u2022 Days on market: 14-30\n\u2022 Trend: Sustained appreciation, accelerating\n\nKEY DEVELOPMENTS\n\u2022 Michigan Central Station (Ford): 5,000+ jobs campus\n\u2022 Continuous restaurant/retail growth on Michigan Ave\n\u2022 New construction filling vacant lots\n\nLIFESTYLE\n\u2022 Walk Score: 60-70+ (high for Detroit)\n\u2022 Dining: Mudgie's, Gold Cash Gold, Ottava Via, Lady of the House, Takoi\n\u2022 Coffee: Astro Coffee, Batch Brewing\n\nWHO BUYS HERE\n\u2022 Young professionals (25-40)\n\u2022 Relocators from coastal cities\n\u2022 Investors targeting appreciation near Ford campus\n\nAGENT TALKING POINTS\n\u2022 "Corktown has appreciated more than any Detroit neighborhood in 5 years, and the Ford campus hasn't fully activated yet."\n\u2022 "At $250K you get walkable urban lifestyle that costs $600K+ in Chicago."\n\u2022 "Inventory is tight. When something good comes up, move fast."\n\nDATA NOTE: Based on public data. Verify with MLS for exact comps.`,'Midtown':`NEIGHBORHOOD BRIEF: MIDTOWN\n\nOVERVIEW\nDetroit's cultural core. DIA, Wayne State, Henry Ford Health. Most walkable neighborhood in the city.\n\nMARKET SNAPSHOT\n\u2022 Median: $200K-350K\n\u2022 Price/sqft: $160-220+\n\u2022 Days on market: 10-25 (most competitive in Detroit)\n\u2022 Rental demand: Extremely strong ($1,200-1,800+ for 1BR)\n\nKEY DEVELOPMENTS\n\u2022 Henry Ford Health: $2.5B campus expansion\n\u2022 Whole Foods, Selden Standard, continuous mixed-use development\n\u2022 Q-Line streetcar along Woodward\n\nAGENT TALKING POINTS\n\u2022 "Only Detroit neighborhood where you can live car-optional."\n\u2022 "Henry Ford's $2.5B expansion is the largest single investment in Detroit history."\n\u2022 "House-hacking makes real financial sense here given rental demand."\n\nDATA NOTE: Based on public data. Verify with MLS.`}; return briefs[nb]||`NEIGHBORHOOD BRIEF: ${nb.toUpperCase()}\n\nOVERVIEW\n${nb} is an established Metro Detroit neighborhood with steady demand.\n\nMARKET SNAPSHOT\n\u2022 Check current MLS for accurate pricing\n\u2022 Inventory and days on market vary by season\n\nAGENT TALKING POINTS\n\u2022 "This neighborhood has been building momentum quietly."\n\u2022 "Buyers who got in 3-5 years ago are seeing real equity gains."\n\nSwitch to Live mode for a full AI-generated brief with current context.`; },
+  'property-snapshot': (f) => { const a=f['a-address']||'1420 Bagley',nb=f['a-neighborhood2']||'Corktown',sp=f['a-specs']||'3BR/2BA',pr=f['a-price2']||'$225K',ctx=f['a-context']||''; return `PROPERTY SNAPSHOT\n${a}, ${nb}\n${sp} | ${pr}\n\nQUICK TAKE\nSolid entry into ${nb}. ${ctx.includes('kitchen')?'Updated kitchen eliminates biggest buyer objection. ':''} ${ctx.includes('roof')?'New roof removes major inspection concern. ':''}${ctx.includes('walkable')?'Walkability to Michigan Central is a premium feature.':''}\n\nSTRENGTHS\n\u2022 ${ctx.includes('hardwood')?'Original hardwood floors':'Solid bones'}\n\u2022 ${ctx.includes('kitchen')?'Updated kitchen':'Functional layout'}\n\u2022 ${nb==='Corktown'?'Walking distance to Ford campus':'Strong neighborhood'}\n\nCONSIDERATIONS\n\u2022 Verify property tax assessment vs. actual\n\u2022 ${sp.includes('1920')?'Pre-war construction, thorough inspection recommended':'Standard inspection recommended'}\n\u2022 ${nb==='Corktown'?'Street parking can be competitive evenings':'Check parking'}\n\nBOTTOM LINE\n${nb} at ${pr} is a shrinking window. Worth seeing in person.\n\nVerify comps through MLS before presenting to clients.`; },
+  'buyer-pitch': (f) => { const nb=f['a-neighborhood3']||'Corktown',bt=f['a-buyer-type']||'First-time buyer',pri=f['a-priorities']||'',obj=f['a-objections']||''; return `BUYER PITCH PREP\n${nb} | ${bt}\n\nOPENING PITCH\n"I want to show you ${nb} because it threads the needle. ${pri.includes('walkab')?'Walkability you want, ':''}${pri.includes('character')?'character you\'re drawn to, ':''}and room to appreciate. Most buyers don't realize ${nb} five years ago was half today's price."\n\nHANDLING OBJECTIONS\n${obj.includes('safety')?'\nSAFETY:\n\u2022 "That\'s the most common question. Fair one."\n\u2022 "This specific area has active community watch. Crime stats here are well below the citywide average."\n\u2022 "Detroit perception vs. specific neighborhood reality are two different things."':''}\n${obj.includes('tax')?'\nPROPERTY TAXES:\n\u2022 "Higher than suburban rates, yes. But purchase price is substantially lower."\n\u2022 "Net monthly cost often comes out similar or better."\n\u2022 "Michigan homestead exemption + Proposal A caps help."':''}\n${obj.includes('resale')?'\nRESALE VALUE:\n\u2022 "5-year appreciation here has outpaced most Metro Detroit suburbs."\n\u2022 "Institutional investment creates a floor under values."':''}\n\nCLOSING MOVE\n"Let me set up 2-3 showings this week. Walking the blocks is what closes the gap between interest and decision."`; },
+  'investment-angle': (f) => { const nb=f['a-neighborhood4']||'Corktown',strat=f['a-strategy']||'Cash flow',budget=f['a-budget']||'$150-250K'; return `INVESTMENT ANALYSIS\n${nb} | ${strat} | ${budget}\n\nMARKET POSITION\n${nb==='Corktown'?'Sustained appreciation cycle. Ford Michigan Central ($950M) is the catalyst. Transitioned from speculative to established.':nb==='Midtown'?'Strongest rental demand in Detroit. Low vacancy. Institutional anchors.':nb+' offers value entry with improving fundamentals.'}\n\n${strat.includes('Cash flow')?`CASH FLOW SCENARIO\n\u2022 Purchase: ~${budget.split('-')[0]||'$150K'}\n\u2022 Estimated rent: ${nb==='Corktown'?'$1,400-1,800/mo':nb==='Midtown'?'$1,200-1,600/mo':'$900-1,300/mo'}\n\u2022 Estimated costs (PITI + maint): ${nb==='Corktown'?'$1,200-1,500':'$1,000-1,300'}\n\u2022 Estimated cash flow: $100-400/mo\n\u2022 Cap rate: ~5-7%`:strat.includes('Appreciation')?`APPRECIATION THESIS\n\u2022 5yr trajectory: ${nb==='Corktown'?'~100-150%':'40-80% (est)'}\n\u2022 Catalyst: ${nb==='Corktown'?'Ford campus activation':'Infrastructure + stabilization'}\n\u2022 Strategy: Buy cosmetic fixer, renovate to standard, hold`:`STRATEGY NOTES\n\u2022 ${strat} in ${nb} at ${budget} is ${nb==='Corktown'||nb==='Midtown'?'viable with right selection':'worth exploring carefully'}`}\n\nFUNDAMENTALS\n\u2022 Employment: ${nb==='Corktown'?'Ford, downtown (10 min)':nb==='Midtown'?'Wayne State, Henry Ford Health':'Metro employers'}\n\u2022 Infrastructure: ${nb==='Corktown'?'Michigan Central, Gordie Howe Bridge, I-75':'Freeway access, transit'}\n\nDISCLAIMER: Public data estimates. Not financial advice. Verify with MLS, CPA, and/or advisor.`; }
+};
+
+function switchAnalystTab(tab){currentAnalystTab=tab;document.querySelectorAll('#analyst-tabs .tool-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));renderAnalystForm();resetPanel('analyst-output');}
+function renderAnalystForm(){const cfg=analystFormConfigs[currentAnalystTab];if(!cfg)return;const p=document.getElementById('analyst-input-panel');let h=`<div class="panel-header"><h3>${cfg.title}</h3><span class="step-badge">Step 1</span></div>`;cfg.fields.forEach(f=>{h+=`<div class="form-group"><label>${f.label}</label>`;if(f.type==='input')h+=`<input type="text" id="${f.id}" placeholder="${f.placeholder||''}" value="${f.value||''}">`;else if(f.type==='textarea')h+=`<textarea id="${f.id}" placeholder="${f.placeholder||''}">${f.value||''}</textarea>`;else if(f.type==='select')h+=`<select id="${f.id}">${f.options.map((o,i)=>`<option value="${o}"${i===0?' selected':''}>${o}</option>`).join('')}</select>`;h+='</div>';});h+=`<button class="generate-btn" onclick="generateAnalyst()">Generate Analysis<span class="spinner"></span></button>`;p.innerHTML=h;}
+function getAnalystData(){const cfg=analystFormConfigs[currentAnalystTab],d={};cfg.fields.forEach(f=>{const el=document.getElementById(f.id);if(el)d[f.id]=el.value;});return d;}
+async function generateAnalyst(){const btn=event.currentTarget;btn.classList.add('loading');const data=getAnalystData();if(liveMode&&apiKey){try{const cfg=analystFormConfigs[currentAnalystTab];let pp=cfg.fields.map(f=>`${f.label}: ${data[f.id]||'not provided'}`).join('\n');const prompts={'neighborhood-brief':'Generate a comprehensive neighborhood brief. Include: Overview, Market Snapshot (median price, price/sqft, days on market, trend), Key Developments, Lifestyle + Walkability, Who Buys Here, Agent Talking Points (verbatim phrases).','property-snapshot':'Generate a property snapshot. Include: Quick Take, Neighborhood Context, Strengths, Considerations, Comp Context, Bottom Line.','buyer-pitch':'Generate buyer pitch prep. Include: Opening Pitch (verbatim paragraph), Handling Objections (specific rebuttals), Selling Points, Closing Move.','investment-angle':'Generate investment analysis. Include: Market Position, scenario with estimated numbers, Fundamentals (employment, infrastructure), Bottom Line, disclaimer.'};const result=await callClaude(SYS_ANALYST,`${prompts[currentAnalystTab]}\n\nDetails:\n${pp}`);btn.classList.remove('loading');const colors={'neighborhood-brief':'#60A5FA','property-snapshot':'#4ADE80','buyer-pitch':'#FB923C','investment-angle':'#A78BFA'};renderTextOutput('analyst-output',result,cfg.title.toUpperCase(),colors[currentAnalystTab]||'#60A5FA');}catch(e){btn.classList.remove('loading');renderDemoAnalyst(data);}}else{await new Promise(r=>setTimeout(r,2000));btn.classList.remove('loading');renderDemoAnalyst(data);}}
+function renderDemoAnalyst(data){const colors={'neighborhood-brief':'#60A5FA','property-snapshot':'#4ADE80','buyer-pitch':'#FB923C','investment-angle':'#A78BFA'};renderTextOutput('analyst-output',demoAnalyst[currentAnalystTab](data),analystFormConfigs[currentAnalystTab].title.toUpperCase(),colors[currentAnalystTab]||'#60A5FA');}
+
+</script>
+</body>
+</html>
